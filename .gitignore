@@ -1,0 +1,40 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# PHP
+vendor/
+
+# Logs
+*.log
+
+# Node
+node_modules/
+
+# React
+dist/
+build/
+
+# Java
+*.class
+target/
+
+# IntelliJ
+.idea/
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Spring Boot
+.mvn/
+
+# Environment files
+.env
+
+# XAMPP temporary files
+tmp/

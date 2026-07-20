@@ -17,15 +17,6 @@ A collection of Web Technology practicals completed as part of the CS3111 Web Te
 - Node.js
 - Express.js
 
-## Repository Structure
-
-```
-practical-01-electricity-bill/
-practical-02-clock-dashboard/
-...
-notes/
-assets/
-```
 
 ## Practical List
 

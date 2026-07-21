@@ -1,34 +1,34 @@
 <?php
-$bill = "";
-$units = "";
+$bill = 0;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if(isset($_POST['calculate']))
+{
+    $custid = $_POST['custid'];
+    $name = $_POST['name'];
+    $address = $_POST['address'];
+    $type = $_POST['type'];
+    $date = $_POST['date'];
 
-    $units = $_POST["units"];
+    $previous = (int)$_POST['previous'];
+    $current = (int)$_POST['current'];
 
-    if ($units <= 50) {
+    $units = $current - $previous;
+
+    if($units <= 50)
         $bill = $units * 3.5;
-    }
-    elseif ($units <= 150) {
-        $bill = (50 * 3.5) + (($units - 50) * 4);
-    }
-    elseif ($units <= 250) {
-        $bill = (50 * 3.5) + (100 * 4) + (($units - 150) * 5.2);
-    }
-    else {
-        $bill = (50 * 3.5) + (100 * 4) + (100 * 5.2) + (($units - 250) * 6.5);
-    }
+    elseif($units <= 150)
+        $bill = (50*3.5) + (($units-50)*4);
+    elseif($units <= 250)
+        $bill = (50*3.5) + (100*4) + (($units-150)*5.2);
+    else
+        $bill = (50*3.5) + (100*4) + (100*5.2) + (($units-250)*6.5);
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electricity Bill Calculator</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -36,44 +36,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
 
-    <h1>Electricity Bill Calculator</h1>
+<h2>Electricity Bill Calculator</h2>
+<h3>Standard Meter Slab</h3>
 
-    <form action="" method="POST">
+<table border="1" cellpadding="5">
+<tr>
+    <th>Units</th>
+    <th>Rate (₹/Unit)</th>
+</tr>
+<tr>
+    <td>0 - 50</td>
+    <td>3.50</td>
+</tr>
+<tr>
+    <td>51 - 150</td>
+    <td>4.00</td>
+</tr>
+<tr>
+    <td>151 - 250</td>
+    <td>5.20</td>
+</tr>
+<tr>
+    <td>Above 250</td>
+    <td>6.50</td>
+</tr>
+</table>
 
-        <label for="units">Enter Units Consumed</label>
+<br>
 
-        <input
-            type="number"
-            id="units"
-            name="units"
-            min="0"
-            placeholder="Enter Units"
-            required
-            value="<?php echo $units; ?>">
+<form method="post">
 
-        <button type="submit">
-            Calculate Bill
-        </button>
+<label>Customer ID</label>
+<input type="text" name="custid" required>
 
-    </form>
+<label>Customer Name</label>
+<input type="text" name="name" required>
 
-    <?php
-    if ($bill !== "") {
-    ?>
+<label>Address</label>
+<input type="text" name="address" required>
 
-    <div class="result">
+<label>Customer Type</label>
+<select name="type">
+    <option>Domestic</option>
+    <option>Commercial</option>
+</select>
 
-        <h2>Bill Details</h2>
+<label>Bill Date</label>
+<input type="date" name="date" required>
 
-        <p><strong>Units Consumed:</strong> <?php echo $units; ?></p>
+<label>Previous Meter Reading</label>
+<input type="number" name="previous" required>
 
-        <p><strong>Total Bill:</strong> <?php echo number_format($bill, 2); ?></p>
+<label>Current Meter Reading</label>
+<input type="number" name="current" required>
 
-    </div>
+<input type="submit" name="calculate" value="Calculate Bill">
 
-    <?php
-    }
-    ?>
+</form>
+
+<?php
+if(isset($_POST['calculate']))
+{
+?>
+<div class="result">
+<h3>Bill Details</h3>
+
+<p><b>Customer ID:</b> <?php echo $custid; ?></p>
+<p><b>Customer Name:</b> <?php echo $name; ?></p>
+<p><b>Address:</b> <?php echo $address; ?></p>
+<p><b>Customer Type:</b> <?php echo $type; ?></p>
+<p><b>Bill Date:</b> <?php echo $date; ?></p>
+<p><b>Previous Reading:</b> <?php echo $previous; ?></p>
+<p><b>Current Reading:</b> <?php echo $current; ?></p>
+<p><b>Units Consumed:</b> <?php echo $units; ?></p>
+<p><b>Total Bill:</b> ₹<?php echo number_format($bill,2); ?></p>
+
+</div>
+<?php
+}
+?>
 
 </div>
 
